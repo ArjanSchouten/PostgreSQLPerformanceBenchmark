@@ -1,5 +1,6 @@
 package jordiarjan.databases.opdracht3;
 
+import jordiarjan.databases.opdracht3.Repository.ClassRepository;
 import jordiarjan.databases.opdracht3.Repository.StudentRepository;
 
 import java.sql.SQLException;
@@ -11,16 +12,6 @@ public class Program {
 
     public static void main(String args[] )
     {
-        StudentRepository student = new StudentRepository(new DBManager());
-        try
-        {
-            student.Create();
-        }
-        catch (SQLException e )
-        {
-            e.printStackTrace();
-        }
-
         if (args.length <= 0)
             return;
         
@@ -32,21 +23,34 @@ public class Program {
 
     private static void insertBenchmark()
     {
-        int concurrentUsers = 3;
+        final int threads = 3;
+        int runs = 600;
         Benchmark benchmark = new Benchmark() {
             @Override
             public int runBenchmarkTarget()
             {
-                return 0;
+                for( int numOfThreads = 0; numOfThreads < threads; numOfThreads++ )
+                {
+                    new Thread(new Runnable() {
+                        public void run() {
+                            for( int x = 0; x < 600; x++ ) {
+
+                            }
+                        }
+                    }).start();
+
+                }
+
+                return 600;
             }
         };
+
+        long averageRunTime = benchmark.runBenchmark();
+        System.out.println("Average runtime per benchmark round: " + averageRunTime);
     }
 
     private static void selectBenchmark()
     {
 
     }
-
-
-
 }

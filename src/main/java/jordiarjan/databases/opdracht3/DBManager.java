@@ -10,10 +10,14 @@ import java.sql.SQLException;
 public class DBManager {
 
     private Connection connection;
+    private final String database = "x";
+    private final String ip = "x";
+    private final String username = "x";
+    private final String pass = "x";
 
     public DBManager() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:postgresql://url:5432/db", "user", "pass");
+            this.connection = DriverManager.getConnection(String.format("jdbc:postgresql://{0}:5432/{1}",ip, database ), username, pass);
         } catch (SQLException e) {
             e.printStackTrace();
         }
