@@ -1,6 +1,7 @@
 package jordiarjan.databases.opdracht3.Repository;
 
 import jordiarjan.databases.opdracht3.DBManager;
+import jordiarjan.databases.opdracht3.Faker.Faker;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,29 +22,19 @@ public class StudentRepository {
 
     public void Create( ) throws SQLException
     {
+        Faker faker = new Faker();
         PreparedStatement insertStatement = dbManager.getConnection().prepareStatement("INSERT INTO student (age, city, firstname, insertion, lastname, postalcode, sex, phonenumber, street, studentnumber) VALUES (?,?,?,?,?,?,CAST(? AS sex ),?,?,?)");
-        insertStatement.setInt(1, 22);
-        insertStatement.setString(2, "Rotterdam");
-        insertStatement.setString(3, "Mark");
-        insertStatement.setString(4, "");
-        insertStatement.setString(5, "LastName");
-        insertStatement.setString(6, "15");
-        insertStatement.setObject(7, "man");
-        insertStatement.setString(8,"0653829234");
-        insertStatement.setString(9, "Hoofdstraat");
-        insertStatement.setString(10, createRandomStudentNumber());
+        insertStatement.setInt(1, faker.age());
+        insertStatement.setString(2, faker.address().cityPrefix());
+        insertStatement.setString(3, faker.name().firstName());
+        insertStatement.setString(4, faker.name().prefix());
+        insertStatement.setString(5, faker.name().lastName());
+        insertStatement.setString(6, faker.address().zipCode());
+        insertStatement.setObject(7, faker.gender());
+        insertStatement.setString(8, faker.phoneNumber().toString());
+        insertStatement.setString(9, faker.address().streetName());
+        insertStatement.setString(10, faker.studentNumber());
 
         insertStatement.execute();
-    }
-
-    public String createRandomStudentNumber()
-    {
-        Random randomStudentNumber = new Random();
-
-        long range = 9999999 - 1000000 + 1;
-        long fraction = (long)(range * randomStudentNumber.nextDouble());
-        int randomNumber =  (int)(fraction + 1000000);
-
-        return Integer.toString(randomNumber);
     }
 }
