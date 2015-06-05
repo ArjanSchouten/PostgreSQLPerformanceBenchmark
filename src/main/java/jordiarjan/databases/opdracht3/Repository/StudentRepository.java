@@ -21,17 +21,19 @@ public class StudentRepository {
 
     public void Create( ) throws SQLException
     {
-        PreparedStatement insertStatement = dbManager.getConnection().prepareStatement("INSERT INTO student (age, city, firstname, insertion, lastname, postalcode, sex, phonenumber, street, studentnumber) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement insertStatement = dbManager.getConnection().prepareStatement("INSERT INTO student (age, city, firstname, insertion, lastname, postalcode, sex, phonenumber, street, studentnumber) VALUES (?,?,?,?,?,?,CAST(? AS sex ),?,?,?)");
         insertStatement.setInt(1, 22);
         insertStatement.setString(2, "Rotterdam");
         insertStatement.setString(3, "Mark");
         insertStatement.setString(4, "");
         insertStatement.setString(5, "LastName");
         insertStatement.setString(6, "15");
-        insertStatement.setString(7,"man");
+        insertStatement.setObject(7, "man");
         insertStatement.setString(8,"0653829234");
         insertStatement.setString(9, "Hoofdstraat");
         insertStatement.setString(10, createRandomStudentNumber());
+
+        insertStatement.execute();
     }
 
     public String createRandomStudentNumber()
