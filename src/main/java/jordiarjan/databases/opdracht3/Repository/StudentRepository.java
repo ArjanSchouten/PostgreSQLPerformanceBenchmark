@@ -13,17 +13,10 @@ import java.util.Random;
  */
 public class StudentRepository {
 
-    private DBManager dbManager;
-
-    public StudentRepository( DBManager dbmanager )
-    {
-        this.dbManager = dbmanager;
-    }
-
     public void Create( ) throws SQLException
     {
         Faker faker = new Faker();
-        PreparedStatement insertStatement = dbManager.getConnection().prepareStatement("INSERT INTO student (age, city, firstname, insertion, lastname, postalcode, sex, phonenumber, street, studentnumber) VALUES (?,?,?,?,?,?,CAST(? AS sex ),?,?,?)");
+        PreparedStatement insertStatement = DBManager.getInstance().getConnection().prepareStatement("INSERT INTO student (age, city, firstname, insertion, lastname, postalcode, sex, phonenumber, street, studentnumber) VALUES (?,?,?,?,?,?,CAST(? AS sex ),?,?,?)");
         insertStatement.setInt(1, faker.age());
         insertStatement.setString(2, faker.address().cityPrefix());
         insertStatement.setString(3, faker.name().firstName());
@@ -31,7 +24,7 @@ public class StudentRepository {
         insertStatement.setString(5, faker.name().lastName());
         insertStatement.setString(6, faker.address().zipCode());
         insertStatement.setObject(7, faker.gender());
-        insertStatement.setString(8, faker.phoneNumber().toString());
+        insertStatement.setString(8, faker.phoneNumber().phoneNumber().replaceAll("[a-zA-Z]", ""));
         insertStatement.setString(9, faker.address().streetName());
         insertStatement.setString(10, faker.studentNumber());
 
