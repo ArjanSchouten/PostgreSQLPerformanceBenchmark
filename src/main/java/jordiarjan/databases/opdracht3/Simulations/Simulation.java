@@ -7,7 +7,7 @@ import jordiarjan.databases.opdracht3.DBManager;
  */
 public interface Simulation {
 
-    void setupDatabase(DBManager dbManager);
+    void databaseSetup();
 
-    void runSimulation(DBManager dbManager);
+    void runSimulation();
 }

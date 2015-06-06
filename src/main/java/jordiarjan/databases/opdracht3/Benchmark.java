@@ -5,22 +5,37 @@ package jordiarjan.databases.opdracht3;
  */
 public class Benchmark {
 
+    private int executedJobs = 0;
+
+    private long totalTime = 0;
+
     /**
      * Run the targeted benchmark
      *
      * @return int Executed jobs
      */
-    public int runBenchmarkTarget() { return 0; }
+    protected void runBenchmarkTarget() { }
 
-    public long runBenchmark()
+    public void startBenchmark()
     {
-        long start = System.currentTimeMillis();
-        int executedJobs = runBenchmarkTarget();
-        return timePerExecutedJobs(start, executedJobs);
+        runBenchmarkTarget();
     }
 
-    protected long timePerExecutedJobs(long start, int executedJobs)
+    public long timePerExecutedJobs()
     {
-        return (System.currentTimeMillis() - start) / executedJobs;
+        return getTotalTime() / executedJobs;
+    }
+
+    public synchronized void incrementExecutedJobs()
+    {
+        this.executedJobs++;
+    }
+
+    public synchronized long getTotalTime() {
+        return totalTime;
+    }
+
+    public synchronized void setTotalTime(long totalTime) {
+        this.totalTime = totalTime;
     }
 }
