@@ -2,6 +2,7 @@ package jordiarjan.databases.opdracht3.Repository;
 
 import com.sun.rowset.internal.Row;
 import jordiarjan.databases.opdracht3.DBManager;
+import jordiarjan.databases.opdracht3.Entities.Student;
 import jordiarjan.databases.opdracht3.Faker.Faker;
 
 import javax.sql.RowSet;
@@ -22,20 +23,32 @@ public class StudentRepository extends Repository {
         super(dbManager);
     }
 
-    public List<String> getAllStudentsIdentifiers()
+    public List<Student> getAllStudents()
     {
-        List<String> studentIdentifiers = new ArrayList<String>();
+        List<Student> students = new ArrayList<Student>();
         Statement statement = null;
         try {
             statement = dbManager.getConnection().createStatement();
-            statement.execute("SELECT studentnumber FROM student");
+            statement.execute("SELECT * FROM student");
             ResultSet result = statement.getResultSet();
-            while (result.next())
-                studentIdentifiers.add(result.getString("studentnumber"));
+            while (result.next()) {
+                Student student = new Student();
+                student.setStudentNumber(result.getString("studentnumber"));
+                student.setAge(result.getInt("age"));
+                student.setFirstName(result.getString("firstname"));
+                student.setLastName(result.getString("lastname"));
+                student.setCity(result.getString("city"));
+                student.setInsertion(result.getString("insertion"));
+                student.setSex(result.getString("sex"));
+                student.setPhonenumber(result.getString("phonenumber"));
+                student.setStreet(result.getString("street"));
+                student.setZipcode(result.getString("postalcode"));
+                students.add(student);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return studentIdentifiers;
+        return students;
     }
 
     public String insertFakeStudent() throws SQLException
