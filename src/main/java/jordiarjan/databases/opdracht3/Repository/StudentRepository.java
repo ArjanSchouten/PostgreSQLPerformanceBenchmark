@@ -1,11 +1,16 @@
 package jordiarjan.databases.opdracht3.Repository;
 
+import com.sun.rowset.internal.Row;
 import jordiarjan.databases.opdracht3.DBManager;
 import jordiarjan.databases.opdracht3.Faker.Faker;
 
+import javax.sql.RowSet;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,6 +20,22 @@ public class StudentRepository extends Repository {
 
     public StudentRepository(DBManager dbManager) {
         super(dbManager);
+    }
+
+    public List<String> getAllStudentsIdentifiers()
+    {
+        List<String> studentIdentifiers = new ArrayList<String>();
+        Statement statement = null;
+        try {
+            statement = dbManager.getConnection().createStatement();
+            statement.execute("SELECT studentnumber FROM student");
+            ResultSet result = statement.getResultSet();
+            while (result.next())
+                studentIdentifiers.add(result.getString("studentnumber"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentIdentifiers;
     }
 
     public String insertFakeStudent() throws SQLException

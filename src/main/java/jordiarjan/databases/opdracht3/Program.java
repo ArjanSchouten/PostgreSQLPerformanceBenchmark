@@ -1,6 +1,7 @@
 package jordiarjan.databases.opdracht3;
 
 import jordiarjan.databases.opdracht3.Simulations.Insertion;
+import jordiarjan.databases.opdracht3.Simulations.Selection;
 
 /**
  * Created by jordi_000 on 1-6-2015.
@@ -24,6 +25,8 @@ public class Program {
     }
 
     private static void selectionBenchmark() {
-
+        Selection selection = new Selection();
+        selection.databaseSetup();
+        selection.runSimulation();
     }
 }
